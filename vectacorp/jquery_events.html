@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>JQuery events</title>
+    <script src="node_modules/jquery/dist/jquery.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            updateHeightAndWidth();
+            $("#button1").click(function(){
+                window.alert("button has been clicked");
+            });
+            $("#button2").bind('click',function(){
+                window.alert("button has been clicked");
+            });
+            $("#button3").on('click',function(){
+                window.alert("button has been clicked");
+            });
+            $('.button4').on('click',function(){
+                window.alert("button has been clicked");
+            });
+
+            $('#div1').width('400px')
+                      .height('400px')
+                      .on({
+                          'click' : function(){
+                            //window.alert("You clicked on the div");
+                            $('#activity').text("You clicked on the div");
+                          },
+                          'mouseenter' : function(){
+                            //.window.alert("You hovered on the div");
+                            $('#activity').text("You hovered on the div");
+                          },
+                          'mouseleave' : function(){
+                            //window.alert("You left the div");
+                            $('#activity').text("You left the div");
+                          }
+                      });
+            
+            $('#hyperLink').on('click',function(event){
+                event.preventDefault();
+                $('#hyperLink').css('color','red');
+                window.alert(event.target.nodeName+' triggered the event');
+            });
+
+            $(window).on('resize',function(){
+                updateHeightAndWidth();
+            });
+
+            $('#textBox').on({
+                'focus' : function(){
+                    $('#textBox').css('background-color','#D3D3D3');
+                },
+                'blur' : function(){
+                    $('#textBox').css('background-color','#FFFFFF');
+                },
+            });
+
+            $('#nameAndEmailForm').on('submit',function(event){
+                event.preventDefault();
+                var nameVal = $('#name').val();
+                if(nameVal){
+                    $('#name').css('border','1px solid green');
+                    $('#nameErrorMessage').hide();
+                }else{
+                    $('#name').css('border','1px solid red');
+                    // $('#nameErrorMessage').css('color','red')
+                    //                       .text("Please enter the name");
+                    window.alert('Please enter the name');
+
+                }
+
+                var emailVal = $('#email').val();
+                if(emailVal){
+                    $('#email').css('border','1px solid green');
+                    $('#emailErrorMessage').hide();
+                }else{
+                    $('#email').css('border','1px solid red');
+                    // $('#emailErrorMessage').css('color','red')
+                    //                       .text("Please enter the email");
+                    window.alert('Please enter the email');
+                }
+            });
+        });
+
+        var updateHeightAndWidth = function (){
+            var newHeightWidth = 'Height : '+$(window).height() + ' Width : ' + $(window).width();
+            $('#updateHeightWidth').text(newHeightWidth);
+        };
+    </script>
+</head>
+<body>
+        <button id="button1">Click Me</button>
+        <button id="button2">Bind Click with Me</button>
+        <button id="button3">On Click</button>
+        <br><br>
+        <button class="button4">Button 1</button>
+        <button class="button4">Button 2</button>
+        <br><br>
+        <div id="div1"></div>
+        <span id="activity"></span>
+        <br><br>
+        <a id="hyperLink" href="http://modulemedia.com">modulemedia.com</a>
+        <br><br>
+        <div id="updateHeightWidth"></div>
+        <br><br>
+        <input id="textBox" type="text">
+        <br><br>
+        <strong>Form</strong>
+        <br>
+        <form id="nameAndEmailForm">
+            <input id="name" placeholder="name" type="text">&nbsp;&nbsp;
+            <span id="nameErrorMessage"></span>
+            <br><br>
+            <input id="email" placeholder="email" type="email">
+            <span id="emailErrorMessage"></span>
+            <span></span>
+            <br><br>
+            <input type="submit">
+        </form>
+
+</body>
+</html>
